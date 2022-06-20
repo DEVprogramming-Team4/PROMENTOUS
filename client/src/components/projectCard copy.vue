@@ -1,33 +1,33 @@
 <template>
   <div class="projectCard card" style="width: 17rem">
-    <section class="card-body" v-for="(project, i) in projects" :key="i">
+    <section class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-start text-muted"
-          >시작예정일 : {{ project.expDate }}</span
+          >시작예정일 : {{ projects[0].expDate }}</span
         >
-        <span class="project-status">{{ project.status }}</span>
+        <span class="project-status">{{ projects[0].status }}</span>
       </div>
-      <h2>{{ project.title }}</h2>
+      <h2>{{ projects[0].title }}</h2>
       <p class="project-desc ellipsis">
-        {{ project.desc }}
+        {{ projects[0].desc }}
       </p>
       <div
         class="d-flex justify-content-between align-items-end border-bottom mb-2">
-        <span>{{ project.user }}</span>
+        <span>{{ projects[0].user }}</span>
         <div class="d-flex flex-column">
           <div>
             <i class="bi bi-bookmark me-1"></i>
-            <span> {{ project.bookmarkCount }}</span>
+            <span> {{ projects[0].bookmarkCount }}</span>
           </div>
           <div>
             <i class="bi bi-eye me-1"></i>
-            <span> {{ project.viewCount }}</span>
+            <span> {{ projects[0].viewCount }}</span>
           </div>
         </div>
       </div>
       <div
         class="stack-icon me-1"
-        v-for="(stack, i) in project.usingStack"
+        v-for="(stack, i) in projects[0].usingStack"
         :key="i">
         {{ stack }}
       </div>
@@ -59,8 +59,8 @@ export default {
           user: "sungjae",
           expDate: "2022-08-08",
           usingStack: ["JS", "nodeJS"],
-          bookmarkCount: 2,
-          viewCount: 4,
+          bookmarkCount: 3,
+          viewCount: 5,
           status: "ING"
         }
       ]
