@@ -13,10 +13,16 @@ import "@/styles/yuri.css";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import StarRating from "vue-star-rating";
+import vue3GoogleLogin from "vue3-google-login";
+
 createApp(App)
   .use(store)
   .use(router)
   .mixin(mixins)
   .component("Datepicker", Datepicker)
   .component("StarRating", StarRating)
+  .use(vue3GoogleLogin, {
+    clientId:
+      "442992845305-oe3tmcff9s3qpj559h36doutbqhk06su.apps.googleusercontent.com"
+  })
   .mount("#app");
