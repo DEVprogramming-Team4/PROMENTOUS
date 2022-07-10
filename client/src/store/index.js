@@ -1,9 +1,22 @@
 import { createStore } from "vuex";
+import persistedstate from "vuex-persistedstate";
 
 export default createStore({
-  state: {},
+  state: {
+    user: {},
+    vuexTest: "vuex-test"
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    user(state, userData) {
+      state.user = userData;
+    }
+  },
   actions: {},
-  modules: {}
+  modules: {},
+  plugins: [
+    persistedstate({
+      paths: ["user"]
+    })
+  ]
 });
