@@ -1,14 +1,14 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-      <div class="container px-5">
+      <div class="container">
         <div class="logo">
-          <a
+          <router-link
             class="navbar-brand mainLogo"
             :class="{ active: $route.path == '/home' }"
-            @click="goToMenu('/home')"
+            to="/home"
             style="font-size: 30px"
-            >PROMENTOUS</a
+            >PROMENTOUS</router-link
           >
         </div>
         <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
@@ -30,19 +30,19 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li>
-                <a
+                <router-link
+                  to="/project/recruit"
                   class="dropdown-item"
                   :class="{ active: $route.path == '/project/recruit' }"
-                  @click="goToMenu('/project/recruit')"
-                  >모집</a
+                  >모집</router-link
                 >
               </li>
               <li>
-                <a
+                <router-link
                   class="dropdown-item"
                   :class="{ active: $route.path == '/project/review' }"
-                  @click="goToMenu('/project/review')"
-                  >리뷰</a
+                  to="/project/review"
+                  >리뷰</router-link
                 >
               </li>
             </ul>
@@ -60,7 +60,6 @@
           </span>
           <span class="dropdown">
             <a
-              href="#"
               role="button"
               id="dropdownMenuLink"
               data-bs-toggle="dropdown"
@@ -72,7 +71,6 @@
           </span>
           <span class="dropdown">
             <a
-              href="#"
               role="button"
               id="dropdownMenuLink"
               data-bs-toggle="dropdown"
@@ -85,27 +83,78 @@
           </span>
         </div>
         <div class="siglog">
-          <button class="btn btn-outline-dark" type="button">
+          <button
+            v-if="user.email == undefined"
+            class="btn btn-outline-dark"
+            type="button"
+            @click="onClickOpen">
             <span>로그인</span>
+          </button>
+          <button
+            v-else
+            class="btn btn-outline-dark"
+            type="button"
+            @click="onClickLogout">
+            <span>로그아웃</span>
           </button>
         </div>
       </div>
     </nav>
+    <!-- 로그인 모달 영역 -->
+    <div class="modal-container" v-if="modalShow">
+      <div class="modal-content">
+        <GoogleLogin :modal-show="modalShow" @on-click-close="onClickClose" />
+        <i class="bi bi-x-lg" @click="onClickClose"></i>
+      </div>
+    </div>
   </header>
 </template>
 <script>
+import GoogleLogin from "../GoogleLogin.vue";
+
+let scrollPosition = 0;
+const body = document.querySelector("body");
+
 export default {
+  components: { GoogleLogin },
   data() {
-    return {};
+    return {
+      modalShow: false
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
   },
   methods: {
     goToMenu(path) {
       this.$router.push({ path: path });
+    },
+    onClickOpen() {
+      this.modalShow = true;
+      scrollPosition = window.pageYOffset;
+      body.style.overflow = "hidden";
+      body.style.position = "fixed";
+      body.style.top = `-${scrollPosition}px`;
+      body.style.width = "100%";
+      body.style.overflowY = "scroll";
+    },
+    onClickClose() {
+      this.modalShow = false;
+      body.style.removeProperty("overflow");
+      body.style.removeProperty("position");
+      body.style.removeProperty("top");
+      body.style.removeProperty("width");
+      window.scrollTo(0, scrollPosition);
+    },
+    onClickLogout() {
+      this.$store.commit("user", {});
     }
   }
 };
 </script>
-<style>
+<style lang="scss">
 nav a {
   font-weight: bold;
   color: #2c3e50;
@@ -139,5 +188,34 @@ div > button {
 }
 .dropdown {
   margin: 10px;
+}
+/* 로그인 모달 영역 */
+.modal-container {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: grid;
+  place-items: center;
+
+  .modal-content {
+    position: relative;
+    z-index: 20;
+    width: 350px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+
+    .bi.bi-x-lg {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.8rem;
+      font-size: 1.5rem;
+    }
+  }
 }
 </style>
