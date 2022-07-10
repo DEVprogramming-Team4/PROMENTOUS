@@ -86,7 +86,9 @@
         <!-- 댓글 -->
 
         <div>
-          <write-comment-view />
+          <write-comment-view
+            pageType="projectRecruit"
+            :projectId="projectId" />
           <comment-view />
         </div>
 

@@ -117,7 +117,8 @@
         <hr />
         <!-- 댓글 -->
         <div class="pt-3">
-          <write-comment-view />
+          <!-- TODO: props로 넘겨줄 정보 추가 필요 :projectId="projectId"-->
+          <write-comment-view pageType="projectReview" />
           <comment-view />
         </div>
       </div>
