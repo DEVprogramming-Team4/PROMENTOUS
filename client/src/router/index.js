@@ -95,26 +95,6 @@ const routes = [
     name: "MentoRegister",
     component: () =>
       import(/* webpackChunkName: "mypage" */ "../views/MentorRegisterView.vue")
-  },
-  {
-    path: "/mentoringapply",
-    name: "MentoApplyView",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "mypage" */ "../components/MentoringApply.vue"
-      )
-  },
-  {
-    path: "/userprofile",
-    name: "UserProfile",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "mypage" */ "../components/UserProfile.vue")
   }
 ];
 
