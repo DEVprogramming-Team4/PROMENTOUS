@@ -3,39 +3,35 @@
     <section class="project_list">
       <div class="card" v-for="(project, i) in projects" :key="i">
         <!-- TODO: 밑의 goToDetail안의 인자는 API 연결이후 project.project_id로 변경해야할 듯 -->
-        <section class="card-body" @click="goToDetail(1)">
+        <section class="card-body" @click="goToDetail(project.project_id)">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-start text-muted"
-              >시작예정일 : {{ project.expDate }}</span
+              >시작예정일 : {{ project.exp_start_date }}</span
             >
-            <span class="project-status">{{ project.status }}</span>
+            <span class="project-status">{{ project.status_code }}</span>
           </div>
-          <h2 class="fs-5">{{ project.title }}</h2>
-          <p class="project-desc ellipsis">
-            {{ project.desc }}
+          <h2 class="fs-5 mb-3">{{ project.title }}</h2>
+          <p class="project-desc mb-3 ellipsis">
+            {{ project.project_desc }}
           </p>
           <div
             class="d-flex justify-content-between align-items-end border-bottom mb-2">
-            <span class="mb-1">{{ project.user }}</span>
+            <span class="mb-1">{{ project.user_nickname }}</span>
             <div class="d-flex flex-column mb-1">
               <div>
                 <i class="bi bi-eye me-1"></i>
-                <span> {{ project.viewCount }}</span>
-              </div>
-              <div>
-                <i class="bi bi-bookmark me-1"></i>
-                <span> {{ project.bookmarkCount }}</span>
+                <!-- <span> {{ project.viewCount }}</span> -->
               </div>
             </div>
           </div>
           <div
             class="stack-icon me-1"
-            v-for="(stack, i) in project.usingStack"
+            v-for="(stack, i) in project.stack_code"
             :key="i">
             {{ stack }}
           </div>
-          <span v-show="project.usingStack.length > 3">
-            + {{ project.usingStack.length - 3 }}
+          <span v-show="project.stack_code.length > 3">
+            + {{ project.stack_code.length - 3 }}
           </span>
 
           <!-- <div class="stack-icon">+3</div> -->
@@ -46,97 +42,57 @@
 </template>
 <script>
 export default {
+  inject: ["message"],
+  props: {
+    status: String // "REC"로 넘어옴
+    // projects: Array
+  },
   components: {},
   data() {
     return {
-      projects: [
-        {
-          title: "Vue-Todo",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "devprogramming4",
-          expDate: "2022-08-09",
-          usingStack: ["nodeJS", "vue", "mysql"],
-          bookmarkCount: 3,
-          viewCount: 5,
-          status: "진행중"
-        },
-        {
-          title: "React-Todo",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "sungjae",
-          expDate: "2022-08-08",
-          usingStack: ["JS", "nodeJS"],
-          bookmarkCount: 2,
-          viewCount: 4,
-          status: "진행중"
-        },
-        {
-          title: "Vue를 활용한 거대 프로젝트",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "뷰사랑꾼",
-          expDate: "2022-06-20",
-          usingStack: ["Vue", "nodeJS", "mySQL", "AWS"],
-          bookmarkCount: 100,
-          viewCount: 1000,
-          status: "진행중"
-        },
-        {
-          title: "Vue를 활용한 거대 프로젝트",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "뷰사랑꾼",
-          expDate: "2022-06-20",
-          usingStack: ["Vue", "nodeJS", "mySQL", "AWS"],
-          bookmarkCount: 100,
-          viewCount: 1000,
-          status: "진행중"
-        },
-        {
-          title: "Vue를 활용한 거대 프로젝트",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "뷰사랑꾼",
-          expDate: "2022-06-20",
-          usingStack: ["Vue", "nodeJS", "mySQL", "AWS"],
-          bookmarkCount: 100,
-          viewCount: 1000,
-          status: "진행중"
-        },
-        {
-          title: "Vue를 활용한 거대 프로젝트",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "뷰사랑꾼",
-          expDate: "2022-06-20",
-          usingStack: ["Vue", "nodeJS", "mySQL", "AWS"],
-          bookmarkCount: 100,
-          viewCount: 1000,
-          status: "진행중"
-        },
-        {
-          title: "Vue를 활용한 거대 프로젝트",
-          desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione totamvero sint cumque at obcaecati, ullam, inventore voluptatum hic facerevoluptates dolore sequi, pariatur illo temporibus! Aliquid suscipitdolorum quo!",
-          user: "뷰사랑꾼",
-          expDate: "2022-06-20",
-          usingStack: [
-            "Vue",
-            "nodeJS",
-            "mySQL",
-            "AWS",
-            "mySQL",
-            "AWS",
-            "mySQL",
-            "AWS"
-          ],
-          bookmarkCount: 100,
-          viewCount: 1000,
-          status: "진행중"
-        }
-      ]
+      projects: []
+      // projects: this.projects
     };
   },
   setup() {},
-  created() {},
+  created() {
+    this.getProjectsData();
+    console.log(this.message);
+  },
   mounted() {},
-  unmounted() {},
+  unmounted() {
+    console.log("cardlist unmounted");
+  },
   methods: {
+    test() {
+      console.log("CardList test fn");
+    },
+    convertDate(raw_date) {
+      return raw_date.substr(0, 10);
+    },
+    convertStack(raw_stack) {
+      return raw_stack.split(",").map(String);
+    },
+    convertStatus(raw_status) {
+      if (raw_status === "REC") {
+        return "모집중";
+      } else if (raw_status === "FIN") {
+        return "모집완료";
+      }
+    },
+    async getProjectsData() {
+      this.projects = await this.$get(
+        // TODO: axios.defaults.baseURL로 변경
+        `http://localhost:3000/project/recruit/`
+      );
+      this.projects.forEach((project) => {
+        project.exp_start_date = this.convertDate(project.exp_start_date);
+        project.stack_code = this.convertStack(project.stack_code);
+        project.status_code = this.convertStatus(project.status_code);
+      });
+      console.log(this.projects);
+      // this.$emit("test");
+    },
     // 카드 클릭시 id를 파라미터로 전달하고 해당 상세글로 이동
     goToDetail(id) {
       const path = `/project/recruit/${id}`;
@@ -154,7 +110,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   row-gap: 24px;
-  /* justify-content: space-between; */
 }
 .project_list .card {
   border-radius: 15px;
@@ -198,7 +153,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 </style>
