@@ -21,6 +21,7 @@
             <!-- 우측 영역 -->
             <div class="media-body">
               <div class="mar-btm">
+                <!-- 작성자 닉네임 -->
                 <a
                   href="#"
                   class="btn-link text-semibold media-heading box-inline a-black fs-5"
@@ -32,12 +33,20 @@
                 {{ comment.content }}
               </p>
               <div class="pad-ver text-end pe-4">
-                <button type="button" class="btn btn-outline-secondary btn-sm">
-                  답글
+                <!-- 누르면 취소 버튼으로 바뀌게.. -->
+                <button
+                  type="button"
+                  class="btn pro_button btn-sm"
+                  @click="comment.isRecomment = !comment.isRecomment">
+                  {{ comment.isRecomment ? "취소" : "답글" }}
                 </button>
               </div>
               <hr />
-              <!-- 대댓글 -->
+              <div class="mx-2 py-2" v-if="comment.isRecomment">
+                <!-- props로 원댓글의 id 넘겨줘야 함. -->
+                <write-comment-view />
+                <hr />
+              </div>
               <div v-for="recomment in commentList" :key="recomment.id">
                 <div class="media-block" v-if="recomment.parent == comment.id">
                   <a class="media-left" href="#"
@@ -78,11 +87,17 @@
                     <div class="pad-ver text-end pe-4">
                       <button
                         type="button"
-                        class="btn btn-outline-secondary btn-sm">
-                        답글
+                        class="btn pro_button btn-sm"
+                        @click="recomment.isRecomment = !recomment.isRecomment">
+                        {{ recomment.isRecomment ? "취소" : "답글" }}
                       </button>
                     </div>
                     <hr />
+                    <div class="mx-2 py-2" v-if="recomment.isRecomment">
+                      <!-- props로 원댓글의 id 넘겨줘야 함. -->
+                      <write-comment-view />
+                      <hr />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -94,10 +109,12 @@
   </div>
 </template>
 <script>
+import WriteCommentView from "../components/WriteCommentView.vue";
 export default {
-  components: {},
+  components: { WriteCommentView },
   data() {
     return {
+      isRecomment: false,
       commentList: [
         {
           id: 1,
@@ -116,6 +133,15 @@ export default {
           writer: "오뎅",
           parent: 1, // 부모댓글의 id
           seq: 2
+        },
+        {
+          id: 4,
+          is_secret: false,
+          content: "답글 테스트...",
+          insert_date: "2022/06/05 18:41",
+          writer: "오뎅",
+          parent: 1, // 부모댓글의 id
+          seq: 3
         },
         {
           id: 3,

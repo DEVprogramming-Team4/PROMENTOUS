@@ -1,6 +1,23 @@
 .pro_badge_color {
   --bs-bg-opacity: 1;
+  color: white;
   background-color: rgba(73, 192, 208, 0.8);
+}
+
+.pro_button {
+  --bs-bg-opacity: 1;
+  color: white;
+  background-color: rgba(73, 192, 208, 0.8);
+}
+
+.pro_button:hover {
+  color: white;
+  background: #1379d2;
+}
+
+.pro_button:active,
+.pro_button:focus {
+  box-shadow: none;
 }
 
 .pro_star_color {
