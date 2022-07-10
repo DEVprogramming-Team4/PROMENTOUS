@@ -9,8 +9,8 @@
           type="radio"
           name="flexRadioDefault"
           id="recruitStatusRadio1"
-          value="ING"
-          @change="radioChange"
+          value="REC"
+          @change="$emit('sortStatus', recruitStatus)"
           checked />
         <label class="form-check-label" for="recruitStatusRadio1">
           모집 중
@@ -23,8 +23,8 @@
           type="radio"
           name="flexRadioDefault"
           id="recruitStatusRadio2"
-          value="END"
-          @change="radioChange" />
+          value="FIN"
+          @change="$emit('sortStatus', recruitStatus)" />
         <label class="form-check-label" for="recruitStatusRadio2">
           모집 완료
         </label>
@@ -34,19 +34,32 @@
 </template>
 <script>
 export default {
+  props: {
+    status: {
+      type: String
+      // default: "REC"
+    }
+  },
+  // emits: {},
   components: {},
   data() {
     return {
-      recruitStatus: ""
+      recruitStatus: this.status
     };
   },
   setup() {},
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.recruitStatus);
+  },
   unmounted() {},
   methods: {
     radioChange() {
       console.log(this.recruitStatus);
+    },
+
+    async sortRecruitStatus(status) {
+      return status;
     }
   }
 };
